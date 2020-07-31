@@ -13,10 +13,10 @@
 # ----------------------------------------------------------------------------------
 FROM registry.cn-shanghai.aliyuncs.com/yingzhuo/springboot:8 as builder
 WORKDIR /tmp
-COPY ./*.jar layed.jar
+COPY ./*.jar app.jar
 
 # 解压缩并删除无用依赖
-RUN java -Djarmode=layertools -jar /tmp/layed.jar extract && \
+RUN java -Djarmode=layertools -jar /tmp/app.jar extract && \
     rm -rf /tmp/dependencies/BOOT-INF/lib/spring-boot-jarmode-layertools-*.jar
 
 # ----------------------------------------------------------------------------------
@@ -36,3 +36,7 @@ ENV APP_PROFILES=k8s
 # 暴露端口 (Optional)
 EXPOSE 8080
 ```
+
+#### 注意
+
+* 本镜像基于OpenJDK
