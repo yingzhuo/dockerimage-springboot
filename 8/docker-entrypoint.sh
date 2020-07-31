@@ -3,15 +3,6 @@
 set -e
 
 # ----------------------------------------------------------------------------------
-# check debug mode
-# ----------------------------------------------------------------------------------
-if [[ "${APP_DEBUG}" == "true" ]]; then
-  debug_mode="--debug"
-else
-  debug_mode=""
-fi
-
-# ----------------------------------------------------------------------------------
 # check spring-boot active profiles
 # ----------------------------------------------------------------------------------
 profiles="${APP_PROFILES}"
@@ -67,5 +58,4 @@ exec java \
   -Duser.country="${country}" \
   -Djava.io.tmpdir=/tmp \
   org.springframework.boot.loader.JarLauncher \
-  "${debug_mode}" \
   "$@"
