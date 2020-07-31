@@ -2,7 +2,7 @@ FROM alpine:3.12.0
 
 WORKDIR /opt
 
-COPY --chown=root:root ./docker-entrypoint.sh docker-entrypoint.sh
+COPY ./docker-entrypoint.sh docker-entrypoint.sh
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
     apk add --update bash ca-certificates openjdk11-jre font-adobe-100dpi ttf-dejavu fontconfig procps && \
