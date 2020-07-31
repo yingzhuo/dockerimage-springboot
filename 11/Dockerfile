@@ -36,7 +36,6 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     rm -rf "$JAVA_HOME/jre/lib/amd64/libgstreamer-lite.so" && \
     rm -rf "$JAVA_HOME/jre/lib/amd64/libjavafx*.so" && \
     rm -rf "$JAVA_HOME/jre/lib/amd64/libjfx*.so" && \
-    mkdir -p /opt/config && \
     chmod +x /opt/docker-entrypoint.sh
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
