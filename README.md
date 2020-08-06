@@ -13,7 +13,7 @@
 # ----------------------------------------------------------------------------------
 # 预构建阶段
 # ----------------------------------------------------------------------------------
-FROM registry.cn-shanghai.aliyuncs.com/yingzhuo/springboot:8 as builder
+FROM registry.cn-shanghai.aliyuncs.com/yingzhuo/springboot:8 AS builder
 
 COPY ./*.jar app.jar
 
@@ -96,9 +96,20 @@ EXPOSE 8080
     </executions>
     <configuration>
         <layers>
+            <mainClass>my.Application</mainClass>
             <enabled>true</enabled>
             <configuration>${project.basedir}/src/layers.xml</configuration>
         </layers>
+        <excludes>
+            <exclude>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+            </exclude>
+            <exclude>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+            </exclude>
+        </excludes>
     </configuration>
 </plugin>
 ```
