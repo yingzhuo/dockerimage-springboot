@@ -5,7 +5,7 @@ WORKDIR /opt
 COPY ./docker-entrypoint.sh docker-entrypoint.sh
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
-    apk add --update bash ca-certificates openjdk11-jre font-adobe-100dpi ttf-dejavu fontconfig procps && \
+    apk add --update bash ca-certificates openjdk11-jre font-adobe-100dpi ttf-dejavu fontconfig && \
     rm -rf /var/cache/apk/* && \
     rm -rf "$JAVA_HOME/man/" && \
     rm -rf "$JAVA_HOME/demo/" && \
