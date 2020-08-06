@@ -14,14 +14,14 @@
 # 预构建阶段
 # ----------------------------------------------------------------------------------
 FROM registry.cn-shanghai.aliyuncs.com/yingzhuo/springboot:8 as builder
-WORKDIR /tmp
+
 COPY ./*.jar app.jar
 
 # 解压缩并删除无用依赖和无用文件
-RUN java -Djarmode=layertools -jar /tmp/app.jar extract && \
-    rm -rf /tmp/dependencies/BOOT-INF/lib/spring-boot-jarmode-layertools-*.jar && \
-    rm -rf /tmp/application/BOOT-INF/classpath.idx && \
-    rm -rf /tmp/application/BOOT-INF/layers.idx
+RUN java -Djarmode=layertools -jar /opt/app.jar extract && \
+    rm -rf /opt/dependencies/BOOT-INF/lib/spring-boot-jarmode-layertools-*.jar && \
+    rm -rf /opt/application/BOOT-INF/classpath.idx && \
+    rm -rf /opt/application/BOOT-INF/layers.idx
 
 # ----------------------------------------------------------------------------------
 # 实际构建阶段
@@ -29,10 +29,11 @@ RUN java -Djarmode=layertools -jar /tmp/app.jar extract && \
 FROM registry.cn-shanghai.aliyuncs.com/yingzhuo/springboot:8
 
 # 分层拷贝
-COPY --from=builder /tmp/dependencies/ ./
-COPY --from=builder /tmp/spring-boot-loader/ ./
-COPY --from=builder /tmp/snapshot-dependencies/ ./
-COPY --from=builder /tmp/application/ ./
+COPY --from=builder /opt/dependencies/ ./
+COPY --from=builder /opt/spring-boot-loader/ ./
+COPY --from=builder /opt/snapshot-dependencies/ ./
+COPY --from=builder /opt/internal-dependencies/ ./
+COPY --from=builder /opt/application/ ./
 
 # 预设环境变量
 ENV APP_PROFILES=k8s
@@ -61,8 +62,9 @@ EXPOSE 8080
         <into layer="snapshot-dependencies">
             <include>*:*:*SNAPSHOT</include>
         </into>
+        <!-- 工程内部依赖单独作为一层 -->
         <into layer="internal-dependencies">
-            <include>com.github.yingzhuo:kse-common:*</include>
+            <include>com.my.company:my-project-*:*</include>
         </into>
         <into layer="dependencies"/>
     </dependencies>
