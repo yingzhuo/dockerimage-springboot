@@ -3,23 +3,6 @@
 set -e
 
 # ----------------------------------------------------------------------------------
-# check spring-boot active profiles
-# ----------------------------------------------------------------------------------
-profiles="${APP_PROFILES}"
-
-if [[ "${profiles}" == "" ]]; then
-  profiles="${SPRING_PROFILES_ACTIVE}"
-fi
-
-if [[ "${profiles}" == "" ]]; then
-  export APP_PROFILES='default'
-  export SPRING_PROFILES_ACTIVE='default'
-else
-  export APP_PROFILES="${profiles}"
-  export SPRING_PROFILES_ACTIVE="${profiles}"
-fi
-
-# ----------------------------------------------------------------------------------
 # check timezone, if not set. default to Asia/Shanghai
 # ----------------------------------------------------------------------------------
 tz="${APP_TIMEZONE}"
