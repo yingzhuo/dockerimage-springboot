@@ -1,13 +1,14 @@
 FROM alpine:3.12.0
 
-COPY ./docker-entrypoint.sh docker-entrypoint.sh
+LABEL maintainer="应卓 <yingzhor@gmail.com>"
 
 RUN addgroup -g 1001 -S spring && \
     adduser  -u 1001 -S spring -G spring && \
     apk add --update bash ca-certificates openjdk11-jre font-adobe-100dpi ttf-dejavu fontconfig && \
     wget "https://github.com/tianon/gosu/releases/download/1.12/gosu-amd64" -O /usr/local/bin/gosu && \
     chmod +x /usr/local/bin/gosu && \
-    chown spring:spring /var/log && \
+    mkdir -p /var/log/ && chown spring:spring /var/log && \
+    mkdir -p /var/data/ && chown spring:spring /var/data && \
     rm -rf /var/cache/apk/* && \
     rm -rf "$JAVA_HOME/man/" && \
     rm -rf "$JAVA_HOME/demo/" && \
@@ -37,9 +38,14 @@ RUN addgroup -g 1001 -S spring && \
     rm -rf "$JAVA_HOME/jre/lib/amd64/libglass.so" && \
     rm -rf "$JAVA_HOME/jre/lib/amd64/libgstreamer-lite.so" && \
     rm -rf "$JAVA_HOME/jre/lib/amd64/libjavafx*.so" && \
-    rm -rf "$JAVA_HOME/jre/lib/amd64/libjfx*.so" && \
-    chmod +x /opt/docker-entrypoint.sh
+    rm -rf "$JAVA_HOME/jre/lib/amd64/libjfx*.so"
+
+COPY ./docker-entrypoint.sh /home/spring/docker-entrypoint.sh
+
+RUN chmod +x /home/spring/docker-entrypoint.sh
 
 WORKDIR /home/spring
 
-ENTRYPOINT ["./docker-entrypoint.sh"]
+USER root:root
+
+ENTRYPOINT ["/home/spring/docker-entrypoint.sh"]

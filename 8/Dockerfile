@@ -1,11 +1,14 @@
 FROM alpine:3.12.0
 
+LABEL maintainer="应卓 <yingzhor@gmail.com>"
+
 RUN addgroup -g 1001 -S spring && \
     adduser  -u 1001 -S spring -G spring && \
-    apk add --update bash ca-certificates openjdk11-jre font-adobe-100dpi ttf-dejavu fontconfig && \
+    apk add --update bash ca-certificates openjdk8-jre font-adobe-100dpi ttf-dejavu fontconfig && \
     wget "https://github.com/tianon/gosu/releases/download/1.12/gosu-amd64" -O /usr/local/bin/gosu && \
     chmod +x /usr/local/bin/gosu && \
-    chown spring:spring /var/log && \
+    mkdir -p /var/log/ && chown spring:spring /var/log && \
+    mkdir -p /var/data/ && chown spring:spring /var/data && \
     rm -rf /var/cache/apk/* && \
     rm -rf "$JAVA_HOME/man/" && \
     rm -rf "$JAVA_HOME/demo/" && \
@@ -44,7 +47,5 @@ RUN chmod +x /home/spring/docker-entrypoint.sh
 WORKDIR /home/spring
 
 USER root:root
-
-STOPSIGNAL 15
 
 ENTRYPOINT ["/home/spring/docker-entrypoint.sh"]
