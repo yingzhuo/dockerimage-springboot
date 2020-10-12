@@ -1,19 +1,11 @@
 FROM alpine:3.12.0
 
-WORKDIR /opt
-
-USER root:root
-
-COPY ./docker-entrypoint.sh docker-entrypoint.sh
-
-RUN addgroup -g 1001 -S java && \
-    adduser  -u 1001 -S java -G java && \
-    sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
-    apk add --update bash ca-certificates openjdk8-jre font-adobe-100dpi ttf-dejavu fontconfig && \
+RUN addgroup -g 1001 -S spring && \
+    adduser  -u 1001 -S spring -G spring && \
+    apk add --update bash ca-certificates openjdk11-jre font-adobe-100dpi ttf-dejavu fontconfig && \
     wget "https://github.com/tianon/gosu/releases/download/1.12/gosu-amd64" -O /usr/local/bin/gosu && \
     chmod +x /usr/local/bin/gosu && \
-    chown java:java /opt/ && \
-    chown java:java /var/log && \
+    chown spring:spring /var/log && \
     rm -rf /var/cache/apk/* && \
     rm -rf "$JAVA_HOME/man/" && \
     rm -rf "$JAVA_HOME/demo/" && \
@@ -43,7 +35,16 @@ RUN addgroup -g 1001 -S java && \
     rm -rf "$JAVA_HOME/jre/lib/amd64/libglass.so" && \
     rm -rf "$JAVA_HOME/jre/lib/amd64/libgstreamer-lite.so" && \
     rm -rf "$JAVA_HOME/jre/lib/amd64/libjavafx*.so" && \
-    rm -rf "$JAVA_HOME/jre/lib/amd64/libjfx*.so" && \
-    chmod +x /opt/docker-entrypoint.sh
+    rm -rf "$JAVA_HOME/jre/lib/amd64/libjfx*.so"
 
-ENTRYPOINT ["./docker-entrypoint.sh"]
+COPY ./docker-entrypoint.sh /home/spring/docker-entrypoint.sh
+
+RUN chmod +x /home/spring/docker-entrypoint.sh
+
+WORKDIR /home/spring
+
+USER root:root
+
+STOPSIGNAL 15
+
+ENTRYPOINT ["/home/spring/docker-entrypoint.sh"]

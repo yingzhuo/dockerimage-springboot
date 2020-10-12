@@ -34,7 +34,7 @@ fi
 # ----------------------------------------------------------------------------------
 # startup
 # ----------------------------------------------------------------------------------
-exec gosu java:java java \
+exec gosu spring:spring java \
   -Djava.security.egd=file:/dev/./urandom \
   -Duser.timezone="${tz}" \
   -Duser.language="${lang}" \
