@@ -9,6 +9,9 @@ RUN addgroup -g 1001 -S spring && \
     chmod +x /usr/local/bin/gosu && \
     mkdir -p /var/log/ && chown spring:spring /var/log && \
     mkdir -p /var/data/ && chown spring:spring /var/data && \
+    mkdir -p /home/spring/log/ && chown spring:spring /home/spring/log/ && \
+    mkdir -p /home/spring/data/ && chown spring:spring /home/spring/data/ && \
+    mkdir -p /home/spring/config/ && chown spring:spring /home/spring/config/ && \
     rm -rf /var/cache/apk/* && \
     rm -rf "$JAVA_HOME/man/" && \
     rm -rf "$JAVA_HOME/demo/" && \

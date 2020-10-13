@@ -6,7 +6,6 @@ set -e
 # check timezone, if not set. default to Asia/Shanghai
 # ----------------------------------------------------------------------------------
 tz="${APP_TIMEZONE}"
-
 if [[ "$tz" == "" ]]; then
   tz="${APP_TZ}"
 fi
