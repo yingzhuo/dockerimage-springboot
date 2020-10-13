@@ -38,6 +38,6 @@ exec gosu spring:spring java \
   -Duser.timezone="${tz}" \
   -Duser.language="${lang}" \
   -Duser.country="${country}" \
-  -Djava.io.tmpdir=/tmp \
+  -Djava.io.tmpdir=/home/spring/tmp \
   org.springframework.boot.loader.JarLauncher \
   "$@"

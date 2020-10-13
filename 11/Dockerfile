@@ -12,6 +12,7 @@ RUN addgroup -g 1001 -S spring && \
     mkdir -p /home/spring/log/ && chown spring:spring /home/spring/log/ && \
     mkdir -p /home/spring/data/ && chown spring:spring /home/spring/data/ && \
     mkdir -p /home/spring/config/ && chown spring:spring /home/spring/config/ && \
+    mkdir -p /home/spring/tmp/ && chown spring:spring /home/spring/tmp/ && \
     rm -rf /var/cache/apk/* && \
     rm -rf "$JAVA_HOME/man/" && \
     rm -rf "$JAVA_HOME/demo/" && \
